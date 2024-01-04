@@ -1,12 +1,14 @@
+import json
+import os
+import time
+from contextlib import contextmanager
+from pprint import pprint
+
+from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from dotenv import load_dotenv
-import os
-from pprint import pprint
-import time
-import json
+from selenium.webdriver.support.ui import WebDriverWait
 
 load_dotenv()
 
@@ -15,13 +17,16 @@ class KHSScraper:
     def __init__(self, verbose=False):
         """Initializes the scraper."""
         self.verbose = verbose
-        self._driver = self._init_driver()
+        self._driver = None
         self._email = os.getenv("EMAIL")
         self._password = os.getenv("PASSWORD")
+        if not self._email or not self._password:
+            raise ValueError("EMAIL and PASSWORD must be set in the environment.")
         self._sso_login_url = "https://sso.unesa.ac.id/login"
         self._sso_dashboard_url = "https://sso.unesa.ac.id/dashboard"
         self._dataKHS = {}
 
+    @contextmanager
     def _init_driver(self):
         """
         Initializes the webdriver.
@@ -38,7 +43,8 @@ class KHSScraper:
         driver = webdriver.Chrome(options=options)
         if self.verbose:
             print("Driver initialized!")
-        return driver
+        yield driver
+        driver.quit()
 
     def _login_to_sso(self):
         """Logs in to SSO."""
@@ -111,10 +117,12 @@ class KHSScraper:
 
     def start(self):
         """Starts the scraper."""
-        self._login_to_sso()
-        self._navigate_to_siakadu()
-        self._navigate_to_khs()
-        self._get_khs()
+        with self._init_driver() as driver:
+            self._driver = driver
+            self._login_to_sso()
+            self._navigate_to_siakadu()
+            self._navigate_to_khs()
+            self._get_khs()
 
 
 if __name__ == "__main__":
