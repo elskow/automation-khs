@@ -26,13 +26,16 @@ class KHSScraper:
         self._sso_dashboard_url = "https://sso.unesa.ac.id/dashboard"
         self._dataKHS = {}
 
+    def load_config(self):
+        with open("config.json") as f:
+            return json.load(f)
+
     @contextmanager
     def _init_driver(self):
         """
         Initializes the webdriver.
         """
-        with open("config.json") as f:
-            config = json.load(f)
+        config = self.load_config()
 
         options = webdriver.ChromeOptions()
         for option in config["options"]:
@@ -45,6 +48,18 @@ class KHSScraper:
             print("Driver initialized!")
         yield driver
         driver.quit()
+
+    def login(self):
+        self._login_to_sso()
+        self._navigate_to_siakadu()
+        self._navigate_to_khs()
+
+    def start(self):
+        """Starts the scraper."""
+        with self._init_driver() as driver:
+            self._driver = driver
+            self.login()
+            self._get_khs()
 
     def _login_to_sso(self):
         """Logs in to SSO."""
@@ -114,15 +129,6 @@ class KHSScraper:
     def quit(self):
         """Quits the driver."""
         self._driver.quit()
-
-    def start(self):
-        """Starts the scraper."""
-        with self._init_driver() as driver:
-            self._driver = driver
-            self._login_to_sso()
-            self._navigate_to_siakadu()
-            self._navigate_to_khs()
-            self._get_khs()
 
 
 if __name__ == "__main__":
