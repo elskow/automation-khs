@@ -1,0 +1,19 @@
+{
+    "options": [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--disable-extensions",
+        "--disable-infobars",
+        "--disable-logging",
+        "--log-level=3",
+        "--window-size=1920,1080",
+        "--start-maximized",
+        "--headless=new"
+    ],
+    "prefs": {
+        "profile.managed_default_content_settings.images": 2,
+        "javascript.enabled": false
+    }
+}
