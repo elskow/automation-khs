@@ -1,16 +1,25 @@
-[tool.poetry]
+[project]
 name = "automation-khs"
 version = "0.1.0"
-description = ""
-authors = ["elskow <elskow@outlook.com>"]
+description = "Default template for PDM package"
+authors = [
+    {name = "elskow", email = "helmyl.work@gmail.com"},
+]
+dependencies = [
+    "selenium>=4.16.0",
+    "python-dotenv>=1.0.0",
+    "webdriver-manager>=4.0.1",
+]
+requires-python = ">=3.11"
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.11"
-selenium = "^4.16.0"
-python-dotenv = "^1.0.0"
-webdriver-manager = "^4.0.1"
+license = {text = "MIT"}
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm.scripts]
+proto = { path = "src/proto.py", callable = "main" }
+
+[tool.pdm]
+package-type = "library"
