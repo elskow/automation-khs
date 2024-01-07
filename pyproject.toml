@@ -1,6 +1,6 @@
 [project]
 name = "automation-khs"
-version = "0.1.0"
+version = "1.0.0"
 description = "Default template for PDM package"
 authors = [
     {name = "elskow", email = "helmyl.work@gmail.com"},
