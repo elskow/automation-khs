@@ -44,7 +44,7 @@ class KHSScraper:
 
         options.add_experimental_option("prefs", config["prefs"])
 
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+        driver = webdriver.Chrome(options=options)
         if self.verbose:
             print("Driver initialized!")
         yield driver
