@@ -14,12 +14,16 @@ requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
 
+[tool.pdm.dev-dependencies]
+format = ["black" , "isort"]
+
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.pdm.scripts]
-proto = { path = "src/proto.py", callable = "main" }
+dev = "src/scrapper.py"
+format = {shell = "black . && isort ."}
 
 [tool.pdm]
-package-type = "library"
+package-type = "automation"

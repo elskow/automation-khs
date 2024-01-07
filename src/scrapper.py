@@ -1,6 +1,7 @@
 import json
 import os
 from contextlib import contextmanager
+
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
