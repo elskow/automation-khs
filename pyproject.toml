@@ -24,6 +24,7 @@ build-backend = "pdm.backend"
 
 [tool.pdm.scripts]
 dev = "src/scrapper.py"
+bot = "src/app.py"
 format = {shell = "black . && isort ."}
 
 [tool.pdm]

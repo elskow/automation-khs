@@ -1,8 +1,10 @@
-import os
 import asyncio
+import os
+
 import discord
-from discord.ext import tasks
 import dotenv
+from discord.ext import tasks
+
 from helper import get_specific_semester, what_lastest_semester
 from scrapper import KHSScraper
 
