@@ -31,15 +31,34 @@ class MyClient(discord.Client):
         )
         for guild in self.guilds:
             await guild.text_channels[0].send(embed=embed)
-        self.data = await asyncio.get_event_loop().run_in_executor(
-            None, self.scraper.run
-        )
-        if self.data:
-            self.status_init_data = True
-            self.cache_lastest_semester = get_specific_semester(
-                self.data, what_lastest_semester(self.data)
+        try:
+            self.data = await asyncio.get_event_loop().run_in_executor(
+                None, self.scraper.run
             )
-            self.fetch_latest_semester_info.start()
+            if self.data:
+                self.status_init_data = True
+                self.cache_lastest_semester = get_specific_semester(
+                    self.data, what_lastest_semester(self.data)
+                )
+                embed = self.create_embed(
+                    "Success",
+                    "Initial data scraping is done",
+                    discord.Color.green(),
+                )
+                for guild in self.guilds:
+                    await guild.text_channels[0].send(embed=embed)
+                self.fetch_latest_semester_info.start()
+
+        except Exception as e:
+            print(f"Failed to start bot: {e}")
+            embed = self.create_embed(
+                "Bot failed to start",
+                "The bot failed to start due to an error during the initial data scraping. Please check the logs for more details.",
+                discord.Color.red(),
+            )
+            for guild in self.guilds:
+                await guild.text_channels[0].send(embed=embed)
+            await self.close()
 
     async def on_message(self, message):
         if message.author == self.user:
