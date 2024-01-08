@@ -10,7 +10,11 @@ def get_specific_semester(data, semester):
         }
         for d in temp_data
     ]
-    return filtered_data
+
+    order = ["A", "A-", "B", "B-", "C", "D", "E", "n/a"]
+    sorted_data = sorted(filtered_data, key=lambda x: order.index(x["nilai_huruf"]))
+
+    return sorted_data
 
 
 def what_lastest_semester(data):
