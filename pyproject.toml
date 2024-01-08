@@ -26,6 +26,9 @@ build-backend = "pdm.backend"
 dev = "src/scrapper.py"
 bot = "src/app.py"
 format = {shell = "black . && isort ."}
+list-dir = {shell = "ls -l"}
+pwd = {shell = "pwd"}
+
 
 [tool.pdm]
 package-type = "automation"
